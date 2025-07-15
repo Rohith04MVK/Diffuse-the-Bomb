@@ -4,7 +4,7 @@
 >
 > **AGENT, WE HAVE A SITUATION.**
 >
-> The rogue anarchist collective known as "The Cypher Syndicate" has activated a city-wide chrono-bomb. We don't know its exact mechanism, but their manifesto claims it will "reset the city to zero." We're interpreting that as a very, very bad thing.
+> The rogue anarchist collective known as "The Equalists" has activated a city-wide chrono-bomb. We don't know its exact mechanism, but their manifesto claims it will "reset the city to zero." We're interpreting that as a very, very bad thing.
 >
 > Our infiltration teams are neutralized. You are our last line of defense. We've managed to get you a direct remote link to the bomb's core processor, but it's protected by a five-level cascading security system. You must solve each challenge to peel back a layer of the bomb's defenses.
 >
@@ -76,53 +76,62 @@ The final result is `6`.
 
 ---
 
-## --- Step 4: Grid Path Match ---
+---
 
-Success! The node is overloaded, but the system is fighting back. It has deployed two "Hunter" security programs that patrol the bomb's internal circuitry grid. They move to seek out and purge your connection. To proceed, you must disable them. The only way to do that is to plant a logic bomb at the *first* grid coordinate that they both visit.
+## --- Step 4: Flawed Security Audit ---
 
-You have the movement logs for both Hunter programs, which both start at `(0, 0)`. The paths are a series of moves like `R2` (move Right 2 units) or `U1` (move Up 1 unit). A move like `R2` means visiting `(1, 0)` and then `(2, 0)`.
+The overload command from Step 3 has sent the bomb's security AI into a panic! It's now performing a security audit on its own database of historical access codes, trying to find which ones are "secure" according to a new, very simple (and flawed) policy.
 
-You must simulate both paths and find the first coordinate (excluding the starting point `(0,0)`) that was visited by *both* programs.
+You've intercepted the list of codes and their corresponding security policies. By figuring out how many codes the AI considers "valid," you can predict its next move and bypass this security layer.
 
-For example, with these paths:
-- Path A = `["R2", "U1"]`
-- Path B = `["U1", "R2"]`
+Each line in your input represents a single policy and its associated code, like this:
 
-1.  **Hunter A's Path:** Starts at `(0,0)`.
-    - `R2`: Visits `(1,0)`, then `(2,0)`. Path so far: `{(1,0), (2,0)}`.
-    - `U1`: Visits `(2,1)`. Total path: `{(1,0), (2,0), (2,1)}`.
-2.  **Hunter B's Path:** Starts at `(0,0)`.
-    - `U1`: Visits `(0,1)`.
-    - `R2`: Visits `(1,1)`, then `(2,1)`. As it moves to `(2,1)`, you check if Hunter A has already been there. It has! This is their first point of intersection.
+`2-4 a: aabbcc`
 
-The first shared cell is `(2,1)`.
+This line is broken down into three parts:
+-   `2-4`: The policy requires the letter to appear a minimum of 2 times and a maximum of 4 times.
+-   `a`: The letter the policy applies to.
+-   `aabbcc`: The access code to check.
 
-**Your puzzle input is the two lists of moves.** At which coordinate must you plant the logic bomb?
+To be **valid**, the letter must appear in the code a number of times that is within the min-max range (inclusive).
+
+Let's look at some examples:
+-   `1-3 a: abcde` is **valid**. The letter 'a' appears 1 time, which is between 1 and 3.
+-   `1-3 b: cdefg` is **invalid**. The letter 'b' appears 0 times, which is not between 1 and 3.
+-   `2-9 c: ccccccccc` is **valid**. The letter 'c' appears 9 times, which is between 2 and 9.
+
+**Your puzzle input is a list of these policy/code lines.** How many of the access codes are considered valid by this flawed logic?
 
 ---
 
-## --- Step 5: Defuse Code ---
+## --- Step 5: The Recursive Defusal Cipher ---
 
-The Hunter programs are down! You've reached the final layer: the main detonation keypad. It requires an 8-digit code. Our analysts have found a hidden message from the bomb's disgruntled creator—a secret formula to derive the code from a master passphrase.
+The audit is bypassed! You've reached the final manual override panel. The keypad is glowing, awaiting an 8-digit code. Intercepted communications reveal the bomb's creator used a highly paranoid encryption method: a **dynamic recursive cipher**.
 
-To generate each digit of the 8-digit code, you take one character of the 8-character passphrase. The digit is calculated using the following rule:
+Unlike a simple Caesar cipher with a fixed key, this cipher's key changes with every character you process. The process generates one digit of the final code, and that very digit becomes the shift value for the *next* character.
 
-`digit = (ASCII value of the character + its zero-based index) % 10`
+Here is the process:
 
-The master passphrase for your specific instance of the bomb is: `OVERRIDE`
+1.  Start with a **current shift value** of `0`.
+2.  For each character in the 8-character passphrase, from left to right:
+    a. Calculate the `new_ascii` value by adding the `current_shift_value` to the character's standard ASCII value.
+    b. The `digit` for the final code is `new_ascii % 10`.
+    c. **Crucially, the `current_shift_value` for the next character becomes the `digit` you just calculated.**
 
-Let's calculate the code for `OVERRIDE` as an example:
-- `O`: `(ord('O') + 0) % 10` -> `(79 + 0) % 10` -> `79 % 10` -> `9`
-- `V`: `(ord('V') + 1) % 10` -> `(86 + 1) % 10` -> `87 % 10` -> `7`
-- `E`: `(ord('E') + 2) % 10` -> `(69 + 2) % 10` -> `71 % 10` -> `1`
-- `R`: `(ord('R') + 3) % 10` -> `(82 + 3) % 10` -> `85 % 10` -> `5`
-- `R`: `(ord('R') + 4) % 10` -> `(82 + 4) % 10` -> `86 % 10` -> `6`
-- `I`: `(ord('I') + 5) % 10` -> `(73 + 5) % 10` -> `78 % 10` -> `8`
-- `D`: `(ord('D') + 6) % 10` -> `(68 + 6) % 10` -> `74 % 10` -> `4`
-- `E`: `(ord('E') + 7) % 10` -> `(69 + 7) % 10` -> `76 % 10` -> `6`
+Let's calculate the code for the example passphrase `AGENT`:
 
-The final code would be `97156846`.
+- **Start:** `current_shift = 0`
 
-**Your puzzle input is the passphrase for your specific bomb: `CYPHERGO`**
+- **Character 'A' (index 0):**
+  - `new_ascii = ord('A') + current_shift` -> `65 + 0 = 65`.
+  - `digit = 65 % 10 = 5`.
+  - **Code is `5...`**, **next shift becomes `5`**.
 
-Calculate the 8-digit defusal code. The fate of the city is in your hands.
+- **Character 'G' (index 1):**
+  - `new_ascii = ord('G') + current_shift` -> `71 + 5 = 76`.
+  - `digit = 76 % 10 = 6`.
+  - **Code is `56...`**, **next shift becomes `6`**.
+
+...and so on. The final code for `AGENT` would be `56537`.
+
+**Your puzzle input is the final passphrase: `CYPHERGO`**. Time is critical. What is the 8-digit defusal code?
