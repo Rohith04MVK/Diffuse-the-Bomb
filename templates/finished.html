@@ -12,18 +12,59 @@
         <a href="{{ url_for('main.leaderboard') }}" class="button" style="background-color: var(--solved-color); border-color: var(--solved-glow);">View Leaderboard</a>
     </div>
     <!-- Animated Signature Start -->
-    <div id="signature" style="margin-top:40px; font-family:monospace; font-size:1.1rem; color:var(--solved-color); min-height:2em;"></div>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <div id="signature" class="fancy-signature"></div>
+    <style>
+        .fancy-signature {
+            margin-top: 40px;
+            font-family: 'Orbitron', monospace, sans-serif;
+            font-size: 0.9rem;
+            background: linear-gradient(90deg, #00ff88, #39ff14, #00ff88, #39ff14);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 4s linear infinite;
+            text-shadow: 0 0 12px #39ff14, 0 0 24px #00ff88, 0 0 2px #fff;
+            min-height: 2em;
+            letter-spacing: 2px;
+            transition: font-size 0.2s;
+            font-weight: 700;
+            user-select: none;
+        }
+        @keyframes gradientMove {
+            0% {background-position:0% 50%;}
+            100% {background-position:100% 50%;}
+        }
+        .fancy-signature .pulse-heart {
+            display: inline-block;
+            animation: pulse 1s infinite;
+            color: #39ff14;
+            filter: drop-shadow(0 0 8px #39ff14);
+        }
+        @keyframes pulse {
+            0% { transform: scale(1);}
+            50% { transform: scale(1.25);}
+            100% { transform: scale(1);}
+        }
+    </style>
     <script>
-        const text = 'Made with ❤️ by RohithKB — github.com/Rohith04MVK/';
+        const text = 'Made with <span class="pulse-heart">💚</span> by RohithKB — github.com/Rohith04MVK/';
         let i = 0;
         function typeWriter() {
+            const sig = document.getElementById("signature");
             if (i < text.length) {
-                document.getElementById("signature").innerHTML += text.charAt(i);
-                i++;
+                // Handle HTML tags in the text
+                if (text[i] === '<') {
+                    const close = text.indexOf('>', i);
+                    sig.innerHTML += text.slice(i, close + 1);
+                    i = close + 1;
+                } else {
+                    sig.innerHTML += text.charAt(i);
+                    i++;
+                }
                 setTimeout(typeWriter, 45);
             } else {
                 // Make the github part a link after typing
-                const sig = document.getElementById("signature");
                 sig.innerHTML = sig.innerHTML.replace(
                     /github\.com\/Rohith04MVK\//,
                     '<a href="https://github.com/Rohith04MVK/" target="_blank" style="color:inherit; text-decoration:underline;">github.com/Rohith04MVK/</a>'
