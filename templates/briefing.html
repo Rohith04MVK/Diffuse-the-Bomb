@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container" style="text-align: center;">
+    <header>
+        <h1 style="color: var(--danger-color); text-shadow: 0 0 10px var(--danger-glow);">[URGENT - EYES ONLY - PRIORITY OMEGA]</h1>
+    </header>
+    <div class="briefing-content">
+        <h2 style="color: var(--main-text-color); font-size: 2rem; margin: 30px 0;">AGENT, WE HAVE A SITUATION.</h2>
+        
+        <div class="briefing-text">
+            <p>The rogue anarchist collective known as <strong>"The Equalists"</strong> has activated a city-wide chrono-bomb. We don't know its exact mechanism, but their manifesto claims it will <em>"reset the city to zero."</em> We're interpreting that as a very, very bad thing.</p>
+            
+            <p>Our infiltration teams are neutralized. You are our last line of defense. We've managed to get you a direct remote link to the bomb's core processor, but it's protected by a <strong>five-level cascading security system</strong>. You must solve each challenge to peel back a layer of the bomb's defenses.</p>
+            
+            <p style="color: var(--danger-color); font-weight: bold;">The timer is already ticking. You have your terminal, your wits, and very little time. Good luck.</p>
+        </div>
+        
+        <a href="{{ url_for('main.challenge_page') }}" class="button" style="margin-top: 30px; background-color: var(--danger-color); border-color: var(--danger-glow);">BEGIN MISSION</a>
+    </div>
+</div>
+
+<style>
+    :root {
+        --danger-color: #ff4747;
+        --danger-glow: rgba(255, 71, 71, 0.6);
+        --main-text-color: #ffffff;
+        --secondary-text-color: #ffcccc;
+        --glow-color: #ff6666;
+        --background-color: #0b0c10;
+    }
+
+    body {
+        background-color: var(--background-color);
+        font-family: 'VT323', monospace;
+        margin: 0;
+        padding: 0;
+        color: var(--main-text-color);
+    }
+
+    .briefing-content {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .briefing-text {
+        background-color: rgba(255, 71, 71, 0.07);
+        border: 1px solid var(--danger-color);
+        border-radius: 10px;
+        padding: 30px;
+        margin: 30px 0;
+        text-align: left;
+        line-height: 1.8;
+        box-shadow: 0 0 20px var(--danger-glow);
+    }
+
+    .briefing-text p {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: var(--secondary-text-color);
+    }
+
+    .briefing-text strong {
+        color: var(--main-text-color);
+        text-shadow: 0 0 8px var(--glow-color);
+    }
+
+    .briefing-text em {
+        color: var(--danger-color);
+        font-style: normal;
+        text-shadow: 0 0 6px var(--danger-glow);
+    }
+
+    .start-button {
+        background-color: var(--danger-color);
+        border: none;
+        padding: 15px 30px;
+        border-radius: 8px;
+        font-family: 'VT323', monospace;
+        font-size: 1.5rem;
+        color: black;
+        cursor: pointer;
+        box-shadow: 0 0 15px var(--danger-glow), 0 0 10px green;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .start-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px var(--danger-color), 0 0 10px lime;
+    }
+</style>
+{% endblock %}

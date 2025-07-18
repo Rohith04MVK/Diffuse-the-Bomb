@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title or 'Diffuse the Bomb' }}</title>
+    <!-- The CSS from the previous version goes here. No changes needed. -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        :root {
+            --bg-color: #081008;
+            --main-text-color: #9eff8a;
+            --glow-color: #39ff14;
+            --secondary-text-color: #90ee90;
+            --border-color: #2e8b57;
+            --danger-color: #ff4747;
+            --danger-glow: #ff0000;
+            --locked-color: #555;
+            --solved-color: #00aaff;
+            --solved-glow: #00ffff;
+            --info-color: #f0e68c
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--secondary-text-color);
+            font-family: 'VT323', monospace;
+            font-size: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0, 0, 0, .1) 2px, rgba(0, 0, 0, .1) 3px)
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 95%;
+            padding: 30px 40px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, .6);
+            box-shadow: 0 0 20px var(--border-color), inset 0 0 15px rgba(46, 139, 87, .4);
+            margin: 2vh 0
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--main-text-color);
+            text-shadow: 0 0 5px var(--glow-color)
+        }
+
+        header h1 {
+            font-family: 'VT323', monospace;
+            font-size: 3rem;
+            letter-spacing: 5px
+        }
+
+        .top-nav {
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 20px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem
+        }
+
+        .top-nav a {
+            color: var(--secondary-text-color);
+            text-decoration: none
+        }
+
+        .top-nav a:hover {
+            color: var(--main-text-color)
+        }
+
+        .feedback {
+            margin: 0 auto 25px;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            max-width: 80%
+        }
+
+        .feedback.correct {
+            background-color: rgba(57, 255, 20, .2);
+            border: 1px solid var(--glow-color);
+            color: var(--glow-color);
+            text-shadow: 0 0 5px var(--glow-color)
+        }
+
+        .feedback.incorrect {
+            background-color: rgba(255, 71, 71, .2);
+            border: 1px solid var(--danger-color);
+            color: #ffabab;
+            text-shadow: 0 0 5px var(--danger-color)
+        }
+
+        .feedback.info {
+            background-color: rgba(240, 230, 140, .2);
+            border: 1px solid var(--info-color);
+            color: var(--info-color);
+            text-shadow: 0 0 5px var(--info-color)
+        }
+
+        .button {
+            font-family: 'VT323', monospace;
+            text-decoration: none;
+            font-size: 1.1rem;
+            color: #000;
+            background-color: var(--main-text-color);
+            padding: 12px 22px;
+            border: 2px solid var(--glow-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all .2s ease-in-out;
+            display: inline-block;
+            box-shadow: 0 0 8px var(--glow-color)
+        }
+
+        .button:hover,
+        .button:focus {
+            background-color: var(--glow-color);
+            color: #000;
+            box-shadow: 0 0 15px var(--glow-color), 0 0 25px var(--glow-color);
+            transform: translateY(-2px)
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%
+        }
+
+        .form-group label {
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+            color: var(--main-text-color)
+        }
+
+        .form-input {
+            background-color: #000;
+            border: 2px solid var(--border-color);
+            color: var(--main-text-color);
+            padding: 10px 15px;
+            font-family: 'VT323', monospace;
+            font-size: 1.8rem;
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+            border-radius: 4px;
+            transition: all .2s ease
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--glow-color);
+            box-shadow: 0 0 10px var(--glow-color)
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div>
+            {% if user %}
+            <span>AGENT: {{ user.username }}</span>
+            {% endif %}
+        </div>
+        <div>
+            <a href="{{ url_for('main.leaderboard') }}">[LEADERBOARD]</a>
+            {% if 'user_id' in session %}
+            <a href="{{ url_for('main.logout') }}" style="margin-left: 20px;">[CHANGE AGENT]</a>
+            {% endif %}
+        </div>
+    </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="feedback {{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</body>
+
+</html>

@@ -5,8 +5,10 @@ build/
 dist/
 wheels/
 *.egg-info
+*.db
 
 outputs/
+*.
 
 # Virtual environments
 .venv
