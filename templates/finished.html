@@ -11,5 +11,27 @@
         <p style="font-size: 2.5rem; color: var(--main-text-color); margin: 20px 0;">{{ user.get_completion_time() }}</p>
         <a href="{{ url_for('main.leaderboard') }}" class="button" style="background-color: var(--solved-color); border-color: var(--solved-glow);">View Leaderboard</a>
     </div>
+    <!-- Animated Signature Start -->
+    <div id="signature" style="margin-top:40px; font-family:monospace; font-size:1.1rem; color:var(--solved-color); min-height:2em;"></div>
+    <script>
+        const text = 'Made with ❤️ by RohithKB — github.com/Rohith04MVK/';
+        let i = 0;
+        function typeWriter() {
+            if (i < text.length) {
+                document.getElementById("signature").innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 45);
+            } else {
+                // Make the github part a link after typing
+                const sig = document.getElementById("signature");
+                sig.innerHTML = sig.innerHTML.replace(
+                    /github\.com\/Rohith04MVK\//,
+                    '<a href="https://github.com/Rohith04MVK/" target="_blank" style="color:inherit; text-decoration:underline;">github.com/Rohith04MVK/</a>'
+                );
+            }
+        }
+        window.addEventListener('DOMContentLoaded', typeWriter);
+    </script>
+    <!-- Animated Signature End -->
 </div>
 {% endblock %}
