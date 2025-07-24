@@ -14,10 +14,63 @@
         {% endfor %}
     </nav>
     <main>
-        <!-- Puzzle 1 -->
+        <!-- Puzzle 1: Energy Log Sorting -->
         <div id="puzzle-1" class="puzzle-content {{ 'active' if active_level == 1 }}">
             <section class="puzzle-story">
-                <h3 class="puzzle-title">--- Step 1: Signal Noise ---</h3>
+                <h3 class="puzzle-title">--- Step 1: Energy Log Sorting ---</h3>
+                <p>The schematic gives you access to the reactor energy logs. Find the regulation node by
+                    identifying the <strong>first power reading that is strictly greater than the readings
+                        immediately before and after it.</strong> Your answer is the <strong>zero-based
+                        index</strong> of this peak.</p>
+                <div class="example-box">
+                    <h4>Example</h4>
+                    <p>Given the energy log: <code>[3, 7, 1, 5, 2, 9]</code></p>
+                    <ul>
+                        <li>The number <code>7</code> is the first value greater than its neighbors (3 and 1).</li>
+                        <li>It is located at <strong>index 1</strong>. The correct answer is <code>1</code>.</li>
+                    </ul>
+                </div>
+            </section>
+            <section class="interactive-area">
+                <a href="{{ url_for('main.get_input_file', level_num=1) }}" class="button">Get Puzzle Input 1</a>
+                <hr>
+                <form action="{{ url_for('main.submit_answer', level_num=1) }}" method="POST" class="answer-form"><label
+                        for="answer-input-1">Vulnerability Index:</label><input type="text" id="answer-input-1"
+                        name="answer" class="answer-input" required autocomplete="off"><button type="submit"
+                        class="button submit-btn">Isolate Node</button></form>
+            </section>
+        </div>
+        <!-- Puzzle 2: Instruction Tangle -->
+        <div id="puzzle-2" class="puzzle-content {{ 'active' if active_level == 2 }}">
+            <section class="puzzle-story">
+                <h3 class="puzzle-title">--- Step 2: Instruction Tangle ---</h3>
+                <p>You've isolated the node. Simulate the AI's boot sequence to find the final value of its
+                    accumulator, which starts at <code>0</code>.</p>
+                <div class="example-box">
+                    <h4>Example</h4>
+                    <p>Given the instruction sequence: <code>["inc 5", "dec 2", "inc 3"]</code></p>
+                    <ol>
+                        <li>Start with accumulator = <code>0</code>.</li>
+                        <li><code>inc 5</code>: accumulator becomes <code>0 + 5 = 5</code>.</li>
+                        <li><code>dec 2</code>: accumulator becomes <code>5 - 2 = 3</code>.</li>
+                        <li><code>inc 3</code>: accumulator becomes <code>3 + 3 = 6</code>.</li>
+                    </ol>
+                    <p>The final result is <code>6</code>.</p>
+                </div>
+            </section>
+            <section class="interactive-area">
+                <a href="{{ url_for('main.get_input_file', level_num=2) }}" class="button">Get Puzzle Input 2</a>
+                <hr>
+                <form action="{{ url_for('main.submit_answer', level_num=2) }}" method="POST" class="answer-form"><label
+                        for="answer-input-2">Final Accumulator:</label><input type="text" id="answer-input-2"
+                        name="answer" class="answer-input" required autocomplete="off"><button type="submit"
+                        class="button submit-btn">Overload Node</button></form>
+            </section>
+        </div>
+        <!-- Puzzle 3: Signal Noise -->
+        <div id="puzzle-3" class="puzzle-content {{ 'active' if active_level == 3 }}">
+            <section class="puzzle-story">
+                <h3 class="puzzle-title">--- Step 3: Signal Noise ---</h3>
                 <p>Your first task is to intercept the bomb's internal schematic. The data is buried in static. At
                     any given character position, the <strong>most frequently occurring character</strong> is the
                     correct one.</p>
@@ -34,65 +87,12 @@ hezlo</pre>
                 </div>
             </section>
             <section class="interactive-area">
-                <a href="{{ url_for('main.get_input_file', level_num=1) }}" class="button">Get Puzzle Input 1</a>
-                <hr>
-                <form action="{{ url_for('main.submit_answer', level_num=1) }}" method="POST" class="answer-form"><label
-                        for="answer-input-1">Schematic:</label><input type="text" id="answer-input-1" name="answer"
-                        class="answer-input" required autocomplete="off"><button type="submit"
-                        class="button submit-btn">Bypass Layer 1</button></form>
-            </section>
-        </div>
-        <!-- Puzzle 2 -->
-        <div id="puzzle-2" class="puzzle-content {{ 'active' if active_level == 2 }}">
-            <section class="puzzle-story">
-                <h3 class="puzzle-title">--- Step 2: Energy Log Sorting ---</h3>
-                <p>The schematic gives you access to the reactor energy logs. Find the regulation node by
-                    identifying the <strong>first power reading that is strictly greater than the readings
-                        immediately before and after it.</strong> Your answer is the <strong>zero-based
-                        index</strong> of this peak.</p>
-                <div class="example-box">
-                    <h4>Example</h4>
-                    <p>Given the energy log: <code>[3, 7, 1, 5, 2, 9]</code></p>
-                    <ul>
-                        <li>The number <code>7</code> is the first value greater than its neighbors (3 and 1).</li>
-                        <li>It is located at <strong>index 1</strong>. The correct answer is <code>1</code>.</li>
-                    </ul>
-                </div>
-            </section>
-            <section class="interactive-area">
-                <a href="{{ url_for('main.get_input_file', level_num=2) }}" class="button">Get Puzzle Input 2</a>
-                <hr>
-                <form action="{{ url_for('main.submit_answer', level_num=2) }}" method="POST" class="answer-form"><label
-                        for="answer-input-2">Vulnerability Index:</label><input type="text" id="answer-input-2"
-                        name="answer" class="answer-input" required autocomplete="off"><button type="submit"
-                        class="button submit-btn">Isolate Node</button></form>
-            </section>
-        </div>
-        <!-- Puzzle 3 -->
-        <div id="puzzle-3" class="puzzle-content {{ 'active' if active_level == 3 }}">
-            <section class="puzzle-story">
-                <h3 class="puzzle-title">--- Step 3: Instruction Tangle ---</h3>
-                <p>You've isolated the node. Simulate the AI's boot sequence to find the final value of its
-                    accumulator, which starts at <code>0</code>.</p>
-                <div class="example-box">
-                    <h4>Example</h4>
-                    <p>Given the instruction sequence: <code>["inc 5", "dec 2", "inc 3"]</code></p>
-                    <ol>
-                        <li>Start with accumulator = <code>0</code>.</li>
-                        <li><code>inc 5</code>: accumulator becomes <code>0 + 5 = 5</code>.</li>
-                        <li><code>dec 2</code>: accumulator becomes <code>5 - 2 = 3</code>.</li>
-                        <li><code>inc 3</code>: accumulator becomes <code>3 + 3 = 6</code>.</li>
-                    </ol>
-                    <p>The final result is <code>6</code>.</p>
-                </div>
-            </section>
-            <section class="interactive-area">
                 <a href="{{ url_for('main.get_input_file', level_num=3) }}" class="button">Get Puzzle Input 3</a>
                 <hr>
                 <form action="{{ url_for('main.submit_answer', level_num=3) }}" method="POST" class="answer-form"><label
-                        for="answer-input-3">Final Accumulator:</label><input type="text" id="answer-input-3"
-                        name="answer" class="answer-input" required autocomplete="off"><button type="submit"
-                        class="button submit-btn">Overload Node</button></form>
+                        for="answer-input-3">Schematic:</label><input type="text" id="answer-input-3" name="answer"
+                        class="answer-input" required autocomplete="off"><button type="submit"
+                        class="button submit-btn">Bypass Layer 3</button></form>
             </section>
         </div>
         <!-- Puzzle 4 -->

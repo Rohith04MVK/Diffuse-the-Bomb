@@ -96,9 +96,9 @@ class PuzzleGenerator:
     def generate_all_puzzles(self) -> Dict[int, PuzzleData]:
         """Generates all puzzle levels and returns them in a dictionary."""
         return {
-            1: self.level1_signal_noise(),
-            2: self.level2_energy_log_sorting(),
-            3: self.level3_instruction_tangle(),
+            1: self.level2_energy_log_sorting(),      # was 2, now 1
+            2: self.level3_instruction_tangle(),      # was 3, now 2
+            3: self.level1_signal_noise(),            # was 1, now 3
             4: self.level4_flawed_audit(),
             5: self.level5_recursive_cipher(),
         }
