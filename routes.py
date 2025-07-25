@@ -1,4 +1,3 @@
-# routes.py (NEW FILE)
 from flask import Blueprint, render_template, redirect, url_for, flash, Response, request, session
 from datetime import datetime
 from functools import wraps
