@@ -24,13 +24,13 @@ These instructions will get you a copy of the project up and running on your loc
 1.  **Clone the repository:**
     ```sh
     git clone https://github.com/Rohith04MVK/Diffuse-the-Bomb.git
-    cd bomb-diffusion
+    cd Diffuse-the-Bomb
     ```
 
 2.  **Create a virtual environment and install dependencies using UV:**
     This command creates a virtual environment in a `.venv` directory and installs the packages listed in [`pyproject.toml`](pyproject.toml).
     ```sh
-    uv pip sync
+    uv sync
     ```
 
 3.  **Activate the virtual environment:**
