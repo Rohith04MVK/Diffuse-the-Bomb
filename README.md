@@ -23,7 +23,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/your-username/bomb-diffusion.git
+    git clone https://github.com/Rohith04MVK/Diffuse-the-Bomb.git
     cd bomb-diffusion
     ```
 
