@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, Response, request, session
 from datetime import datetime
 from functools import wraps
-from extensions import db
-from models import User, Puzzle
-from puzzle_generator import PuzzleGenerator
+from .extensions import db
+from .models import User, Puzzle
+from .puzzle_generator import PuzzleGenerator
 
 main_bp = Blueprint('main', __name__)
 

@@ -1,6 +1,6 @@
 from flask import Flask
-from config import Config
-from extensions import db
+from .config import Config
+from .extensions import db
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -10,11 +10,11 @@ def create_app(config_class=Config):
     db.init_app(app)
 
     # Register blueprints or routes here
-    from routes import main_bp
+    from .routes import main_bp
     app.register_blueprint(main_bp)
 
     # Register CLI commands
-    from models import User, Puzzle
+    from .models import User, Puzzle
     @app.cli.command("init-db")
     def init_db_command():
         """Clears existing data and creates new tables."""
